@@ -89,6 +89,29 @@ app.post('/api/courses', async(req,res)=>{
     })  }
 })
 
+
+//get /api/course/:id
+
+app.get("/api/course/:id",async(req,res)=>{
+  const {id} = req.params;
+
+  try{
+    const findCourse = await Course.findById({_id : id})
+  
+    res.json({
+      success: true,
+      data: findCourse,
+      message:"Course find successfully using ID"
+    })
+
+  }catch(err){
+    res.json({
+      success: false,
+      message:"Course not fetch."
+    })
+  }
+})
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
