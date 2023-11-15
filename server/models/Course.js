@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const CourceSchema = new Schema({
+const CourseSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -24,7 +24,7 @@ const CourceSchema = new Schema({
 },
     { timestamps: true });
 
-const Course = model('Courses', CourceSchema);
+const Course = model('Courses', CourseSchema);
 
 export default Course;
 
