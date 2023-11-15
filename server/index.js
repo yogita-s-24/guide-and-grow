@@ -62,55 +62,72 @@ app.post("/api/logins", async (req, res) => {
 
 //course api for add course
 
-app.post('/api/courses', async(req,res)=>{
-  const {name,description,price,image,duration} = req.body;
+app.post("/api/courses", async (req, res) => {
+  const { name, description, price, image, duration } = req.body;
 
   const newCourse = new Course({
-    name:name,
-    description:description,
-    price:price,
-    image:image,
-    duration:duration
-  }) 
+    name: name,
+    description: description,
+    price: price,
+    image: image,
+    duration: duration,
+  });
 
-  try{
+  try {
     const saveCourse = await newCourse.save();
-  
-    res.json({
-      success:true,
-      data:saveCourse,
-      message:'Course added Successfully.'
-    })
-  }
-  catch(error){
-    res.json({
-      success:false,
-      message:'Course not added.'
-    })  }
-})
 
+    res.json({
+      success: true,
+      data: saveCourse,
+      message: "Course added Successfully.",
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: "Course not added.",
+    });
+  }
+});
 
 //get /api/course/:id
 
-app.get("/api/course/:id",async(req,res)=>{
-  const {id} = req.params;
+app.get("/api/course/:id", async (req, res) => {
+  const { id } = req.params;
 
-  try{
-    const findCourse = await Course.findById({_id : id})
-  
+  try {
+    const findCourse = await Course.findById({ _id: id });
+
     res.json({
       success: true,
       data: findCourse,
-      message:"Course find successfully using ID"
-    })
-
-  }catch(err){
+      message: "Course find successfully using ID",
+    });
+  } catch (err) {
     res.json({
       success: false,
-      message:"Course not fetch."
-    })
+      message: "Course not fetch.",
+    });
   }
-})
+});
+
+//DELETE - /api/course/:id
+
+app.delete("/api/course/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Course.deleteOne({ _id: id });
+
+    res.json({
+      success: true,
+      message: "Course deleted Successfully.",
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: "Course not deleted.",
+    });
+  }
+});
 
 const PORT = process.env.PORT || 8080;
 
