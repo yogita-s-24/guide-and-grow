@@ -129,6 +129,33 @@ app.delete("/api/course/:id", async (req, res) => {
   }
 });
 
+// put api for courses
+
+app.put("/api/courses/:id", async (req, res) => {
+  const { id } = req.params;
+  const { name, price, description, img, duration } = req.body;
+  await Course.updateOne(
+    { _id: id },
+    {
+      $set: {
+        name: name,
+        price: price,
+        description: description,
+        img: img,
+        duration: duration,
+      },
+    }
+  );
+
+  const updateCourses = await Course.findOne({ _id: id });
+
+  res.json({
+    success: true,
+    data: updateCourses,
+    message: "Course updated successfully",
+  });
+});
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
