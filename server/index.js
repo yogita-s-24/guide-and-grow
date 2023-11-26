@@ -13,7 +13,7 @@ import {
   putApiCourse,
 } from "./controllers/course.js";
 
-import {postApiStudent} from "./controllers/student.js"
+import {postApiStudent, putApiStudent} from "./controllers/student.js"
 
 const app = express();
 app.use(express.json());
@@ -49,6 +49,9 @@ app.put("/api/courses/:id", putApiCourse);
 
 // post api for add students
 app.post("/api/students", postApiStudent);
+
+// post api for add students
+app.put("/api/students/:id", putApiStudent);
 
 const PORT = process.env.PORT || 8080;
 
