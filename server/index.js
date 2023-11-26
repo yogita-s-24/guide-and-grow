@@ -6,7 +6,14 @@ dotenv.config();
 
 //import here all api controllers
 import { postApiSignup, postApiLogin } from "./controllers/user.js";
-import { postApiCourse, getApiCourseId, deleteApiCourse, putApiCourse } from "./controllers/course.js";
+import {
+  postApiCourse,
+  getApiCourseId,
+  deleteApiCourse,
+  putApiCourse,
+} from "./controllers/course.js";
+
+import {postApiStudent} from "./controllers/student.js"
 
 const app = express();
 app.use(express.json());
@@ -39,6 +46,9 @@ app.delete("/api/course/:id", deleteApiCourse);
 // put api for courses
 
 app.put("/api/courses/:id", putApiCourse);
+
+// post api for add students
+app.post("/api/students", postApiStudent);
 
 const PORT = process.env.PORT || 8080;
 
