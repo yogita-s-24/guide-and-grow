@@ -24,7 +24,7 @@ parentNo:{
 },
 
 birthDate:{
-  type : Date,
+  type : String,
   required:true
 
 },
