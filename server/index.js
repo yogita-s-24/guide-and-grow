@@ -6,6 +6,9 @@ import Course from "./models/Course.js";
 
 dotenv.config();
 
+//import here all api controllers
+import { postApiSignup, postApiLogin } from "./controllers/user.js";
+
 const app = express();
 app.use(express.json());
 
@@ -16,49 +19,11 @@ const connectDB = async () => {
   }
 };
 
-app.post("/api/signup", async (req, res) => {
-  const { name, email, mobile, password, address, gender } = req.body;
-  const user = new User({ name, email, mobile, password, address, gender });
-  try {
-    const savedUser = await user.save();
-    res.json({
-      success: true,
-      data: savedUser,
-      message: "User signup successfully ",
-    });
-  } catch (err) {
-    res.json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
+app.post("/api/signups", postApiSignup);
 
 // Implemented a new POST endpoint for user login in the Express.js application. Users can authenticate by providing their email and password. If the provided email and password match a user in the database, the API responds with a success message and the user's data. If the credentials are invalid, an appropriate error message is returned.
 
-app.post("/api/logins", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.json({
-      success: false,
-      message: "Please enter your email address and password ",
-    });
-  }
-
-  const loginuser = await User.findOne({ email: email, password: password });
-  if (loginuser) {
-    res.json({
-      success: true,
-      data: loginuser,
-      message: " You are login successfully ",
-    });
-  } else {
-    res.json({
-      success: false,
-      message: " invalid credentials ",
-    });
-  }
-});
+app.post("/api/logins", postApiLogin);
 
 //course api for add course
 
