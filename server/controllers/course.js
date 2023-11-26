@@ -1,4 +1,4 @@
-import Course from "./models/Course.js";
+import Course from "../models/Course.js";
 
 const postApiCourse = async (req, res) => {
     const { name, description, price, image, duration } = req.body;
