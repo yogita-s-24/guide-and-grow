@@ -5,7 +5,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 //import here all api controllers
-import { postApiSignup, postApiLogin } from "./controllers/user.js";
+import {
+  postApiSignup,
+  postApiLogin,
+  postApiV2Signup,
+} from "./controllers/user.js";
 import {
   postApiCourse,
   getApiCourseId,
@@ -30,6 +34,7 @@ const connectDB = async () => {
 };
 
 app.post("/api/signups", postApiSignup);
+app.post("/api/v2/signups", postApiV2Signup);
 
 // Implemented a new POST endpoint for user login in the Express.js application. Users can authenticate by providing their email and password. If the provided email and password match a user in the database, the API responds with a success message and the user's data. If the credentials are invalid, an appropriate error message is returned.
 
