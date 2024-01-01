@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt"
 
 const postApiSignup = async (req, res) => {
     const { name, email, mobile, password, address, gender } = req.body;
@@ -17,6 +18,60 @@ const postApiSignup = async (req, res) => {
       });
     }
   }
+//  this v2 api have password security in database 
+  const postApiV2Signup = async (req, res) => {
+    const { name, email, mobile, password, address, gender } = req.body;
+  
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      const nameAlreadyExists = await User.findOne({ name });
+      if (nameAlreadyExists) {
+        return res.status(400).json({
+          success: false,
+          message: "This Name already exists",
+        });
+      }
+  
+      const emailAlreadyExists = await User.findOne({ email });
+      if (emailAlreadyExists) {
+        return res.status(400).json({
+          success: false,
+          message: "This Email already exists",
+        });
+      }
+  
+      const mobileAlreadyExists = await User.findOne({ mobile });
+      if (mobileAlreadyExists) {
+        return res.status(400).json({
+          success: false,
+          message: "This Mobile already exists",
+        });
+      }
+  
+      const newUser = new User({
+        name,
+        email,
+        mobile,
+        password: hashedPassword,
+        address,
+        gender,
+      });
+  
+      const savedUser = await newUser.save();
+      res.status(201).json({
+        success: true,
+        data: savedUser,
+        message: "User saved successfully",
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
+    }
+  };
 
   const postApiLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -42,4 +97,4 @@ const postApiSignup = async (req, res) => {
     }
   }
 
-  export {postApiSignup, postApiLogin};
+  export {postApiSignup, postApiLogin , postApiV2Signup};
