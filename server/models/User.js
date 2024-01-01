@@ -7,7 +7,14 @@ const UserSchema = new Schema(
     mobile: { type: Number, required: true, unique: true },
     password: { type: String },
     adress: { type: String },
-    gender: { type: String, default: "Prefer to not say" },
+    gender: { type: String, 
+      enum : ["male", "female", "Prefer-to-not-say"],
+      default: "Prefer-to-not-say" },
+   roll: {
+      type: String,
+      enum: ["ADMIN", "USER"],
+      default: "USER",
+    },    
   },
   {
     timestamps: true,
