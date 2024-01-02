@@ -97,4 +97,51 @@ const postApiSignup = async (req, res) => {
     }
   }
 
-  export {postApiSignup, postApiLogin , postApiV2Signup};
+  const postApiV2Login = async (req, res) => {
+    const { email, password } = req.body;
+
+  try {
+    // Check if email and password are provided
+    if (!password || !email) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide both email and password",
+      });
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email });
+
+    // Check if the user exists
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (isPasswordValid) {
+      return res.status(200).json({
+        success: true,
+        data: user,
+        message: "You have logged in successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+  }
+
+  export {postApiSignup, postApiLogin , postApiV2Signup , postApiV2Login};

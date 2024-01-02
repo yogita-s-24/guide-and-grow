@@ -9,6 +9,7 @@ import {
   postApiSignup,
   postApiLogin,
   postApiV2Signup,
+  postApiV2Login
 } from "./controllers/user.js";
 import {
   postApiCourse,
@@ -39,6 +40,7 @@ app.post("/api/v2/signups", postApiV2Signup);
 // Implemented a new POST endpoint for user login in the Express.js application. Users can authenticate by providing their email and password. If the provided email and password match a user in the database, the API responds with a success message and the user's data. If the credentials are invalid, an appropriate error message is returned.
 
 app.post("/api/logins", postApiLogin);
+app.post("/api/v2/logins", postApiV2Login)
 
 //course api for add course
 
